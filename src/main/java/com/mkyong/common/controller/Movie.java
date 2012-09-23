@@ -1,9 +1,12 @@
 package com.mkyong.common.controller;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-
-@JsonAutoDetect
 public final class Movie {
+
+	@Override
+	public String toString() {
+		return "Movie [name=" + name + ", rating=" + rating + ", director="
+				+ director + "]";
+	}
 
 	private String name;
 	private String rating;
