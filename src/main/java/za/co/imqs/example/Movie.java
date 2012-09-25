@@ -1,4 +1,4 @@
-package com.mkyong.common.controller;
+package za.co.imqs.example;
 
 public final class Movie {
 
