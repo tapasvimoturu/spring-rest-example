@@ -38,6 +38,7 @@ public class MovieController {
 		return new Movie("","","");
 	}
 	
+	// Request of the form "movieDB/add?name=Terminator2&rating=pg13&director=Someone&20Important"
 	@RequestMapping(value="/add", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void addMovie(@RequestParam String name, @RequestParam String rating, @RequestParam String director) {
