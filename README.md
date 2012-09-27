@@ -42,8 +42,3 @@ SpringMVC$ curl localhost:8080/rest/movieDB/list
 You can get more details on how to use the SBT web plugin [here](https://github.com/siasia/xsbt-web-plugin/wiki).
 
 For now, each one of these options results in a different URL to interact with the example. I will address this in the next day or so.
-
-
-
-
-
