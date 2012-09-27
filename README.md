@@ -11,31 +11,49 @@ In order to run this GIST, you need the following packages installed.
 
 Follow the instructions for your operating system to install the packages and make sure that they are on your path. Note that I have only tested this on OSX, so if there are tricks on the other OS's, please make a note here. Note that all sorts of dependencies will get downloaded automatically.
 
-Clone the project (ADD URL) and change directory to the project.
+Clone the project as follows:
+
+```
+$ git clone https://github.com/IMQS/spring-rest-example.git
+$ cd spring-rest-example
+```
 
 ## Maven builds
-Simply type `mvn package` on the command line. This will produce a file `target/SpringMovies.war`. Copy this to your tomcat webapp directory for deployment. Note that I have not worked out how to deploy this to Jetty. Test it by issuing the following command:
+This is easy:
+```
+$ mvn package
+```
+This will produce a file `target/SpringMovies.war`. Copy this to your tomcat webapp directory for deployment. Note that I have not worked out how to deploy this to Jetty. Test it by issuing the following command:
+
 ```
 SpringMVC$ curl localhost:8080/SpringMovies/rest/movieDB/list
 [{"name":"Alien","rating":"pg16","director":"Ridley Scott"}]
 ```
 
 ## SBT builds
-Simple Build Tool is the Scala build system which can build Java projects too. It uses convention over configuration and results in terse project definitions. Build by typing `sbt package` on the command line. At this point, you can deploy `target/springmovies-0.1.war` to Tomcat's webapp directory for deployment. Test using:
+Simple Build Tool is the Scala build system which can build Java projects too. It uses convention over configuration and results in terse project definitions:
+
 ```
-SpringMVC$ curl localhost:8080/springmovies-0.1/rest/movieDB/list
+$ sbt package
+```
+
+At this point, you can deploy `target/springmovies-0.1.war` to Tomcat's webapp directory for deployment. Test using:
+
+```
+$ curl localhost:8080/springmovies-0.1/rest/movieDB/list
 [{"name":"Alien","rating":"pg16","director":"Ridley Scott"}]
 ```
 
 Alternatively, you can deploy to a local Jetty server as follows:
 
 ```
-SpringMVC$ sbt
+$ sbt
 > container:start
 ```
 This will build the project and deploy it to Jetty. 
+
 ```
-SpringMVC$ curl localhost:8080/rest/movieDB/list
+$ curl localhost:8080/rest/movieDB/list
 [{"name":"Alien","rating":"pg16","director":"Ridley Scott"}]
 ```
 

@@ -1,6 +1,6 @@
 seq(webSettings :_*)
 
-name := "SpringMovies"
+name := "spring-rest-example"
 
 // Don't need Scala stuff here.
 autoScalaLibrary := false
@@ -17,7 +17,7 @@ version := "0.1"
     "org.springframework" % "spring-web" %  springVersion,
     "org.springframework" % "spring-webmvc" % springVersion,
     "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.9",
-    "org.mortbay.jetty" % "jetty" % "6.1.22" % "container"     // Needed for xsbt-web plugin
+    "org.mortbay.jetty" % "jetty" % "6.1.26" % "container"     // Needed for xsbt-web plugin
     )
 }
 

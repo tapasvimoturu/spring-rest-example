@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>za.co.imqs.example</groupId>
-	<artifactId>SpringMovies</artifactId>
+	<artifactId>spring-rest-example</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>Spring Movie DB Example</name>
 	<url>http://maven.apache.org</url>
 
@@ -44,7 +44,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>SpringMovies</finalName>
+		<finalName>spring-rest-example-${version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
