@@ -26,7 +26,7 @@ $ mvn package
 This will produce a file `target/SpringMovies.war`. Copy this to your tomcat webapp directory for deployment. Note that I have not worked out how to deploy this to Jetty. Test it by issuing the following command:
 
 ```
-SpringMVC$ curl localhost:8080/SpringMovies/rest/movieDB/list
+SpringMVC$ curl localhost:8080/spring-rest-example-0.1/rest/movieDB/list
 [{"name":"Alien","rating":"pg16","director":"Ridley Scott"}]
 ```
 
@@ -37,10 +37,10 @@ Simple Build Tool is the Scala build system which can build Java projects too. I
 $ sbt package
 ```
 
-At this point, you can deploy `target/springmovies-0.1.war` to Tomcat's webapp directory for deployment. Test using:
+At this point, you can deploy `target/springmovies-0.1.war` to Tomcat's webapp directory for deployment. The URL is the same as for the maven build.
 
 ```
-$ curl localhost:8080/springmovies-0.1/rest/movieDB/list
+$ curl localhost:8080/spring-rest-example-0.1/rest/movieDB/list
 [{"name":"Alien","rating":"pg16","director":"Ridley Scott"}]
 ```
 
@@ -50,7 +50,7 @@ Alternatively, you can deploy to a local Jetty server as follows:
 $ sbt
 > container:start
 ```
-This will build the project and deploy it to Jetty. 
+This will build the project and deploy it to Jetty. Note that the `spring-rest-example-0.1` path is not required. I am looking into how to make this consistent between Tomcat and Jetty.
 
 ```
 $ curl localhost:8080/rest/movieDB/list
