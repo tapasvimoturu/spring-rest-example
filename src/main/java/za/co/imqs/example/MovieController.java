@@ -37,7 +37,10 @@ public class MovieController {
 				return m;
 			}
 		}
-		return new Movie("","","");
+		// If we get here, it means we don't have the movie in the database. The throw
+		// here is just to demonstrate how to generate an appropriate HTTP error if 
+		// there is a problem
+		throw new IllegalArgumentException("Movie not found in the database");
 	}
 	
 	// Request of the form "movieDB/add?name=Terminator2&rating=pg13&director=Someone&20Important"
