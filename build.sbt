@@ -17,6 +17,7 @@ version := "0.1"
     "org.springframework" % "spring-web" %  springVersion,
     "org.springframework" % "spring-webmvc" % springVersion,
     "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.9",
+    "org.apache.tomcat" % "servlet-api" % "6.0.35",
     "org.mortbay.jetty" % "jetty" % "6.1.26" % "container"     // Needed for xsbt-web plugin
     )
 }

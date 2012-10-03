@@ -1,8 +1,11 @@
 package za.co.imqs.example;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +30,7 @@ public class MovieController {
 
 	// Request of the form /movieDB/get/{name to retrieve}
 	@RequestMapping(value="/get/{name}", method = RequestMethod.GET)
-	public @ResponseBody Movie getMovie(@PathVariable("name") String name) {
+	public @ResponseBody Movie getMovie(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
 		Iterator<Movie> it = movies.iterator();
 		while (it.hasNext())
 		{
@@ -40,7 +43,8 @@ public class MovieController {
 		// If we get here, it means we don't have the movie in the database. The throw
 		// here is just to demonstrate how to generate an appropriate HTTP error if 
 		// there is a problem
-		throw new IllegalArgumentException("Movie not found in the database");
+		response.sendError(400, "Movie \"" + name + "\" does not exist in the database\n");
+		return new Movie("","",""); // Dummy return
 	}
 	
 	// Request of the form "movieDB/add?name=Terminator2&rating=pg13&director=Someone&20Important"
