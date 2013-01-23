@@ -1,4 +1,4 @@
-package za.co.imqs.example;
+package imqs.example;
 
 public final class Movie {
 
@@ -11,7 +11,7 @@ public final class Movie {
 	private String name;
 	private String rating;
 	private String director;
-	
+
 	Movie(String n, String r, String d ){
 		name = n;
 		rating = r;
@@ -79,5 +79,5 @@ public final class Movie {
 			return false;
 		return true;
 	}
-	
+
 }
