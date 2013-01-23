@@ -1,64 +1,76 @@
 package imqs.example;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.http.HttpStatus;
 
-import imqs.example.Movie;
+/*
+ * TODO: Add logging at the appropriate levels
+ */
 
 @Controller
-@RequestMapping("/movieDB")
+@RequestMapping("/movies")
 public class MovieController {
 
-	List<Movie> movies = new ArrayList<Movie>();
-	public MovieController(){
-		// Just add a movie so we can test if we get a list out
-		movies.add(new Movie("Alien", "pg16", "Ridley Scott"));
-	}
+    Map<Integer, Movie> movies = new HashMap<Integer, Movie>();
 
-	// Request of the form /movieDB/get/{name to retrieve}
-	@RequestMapping(value="/get/{name}", method = RequestMethod.GET)
-	public @ResponseBody Movie getMovie(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
-		Iterator<Movie> it = movies.iterator();
-		while (it.hasNext())
-		{
-			Movie m = it.next();
-			System.out.println(name+ " " + m.getName());
-			if (m.getName().equals(name)) {
-				return m;
-			}
-		}
-		// If we get here, it means we don't have the movie in the database. The throw
-		// here is just to demonstrate how to generate an appropriate HTTP error if
-		// there is a problem
-		response.sendError(400, "Movie \"" + name + "\" does not exist in the database\n");
-		return new Movie("","",""); // Dummy return
-	}
+    public MovieController() {
+        // Just add a movie so we can test if we get a list out
+        movies.put(1, new Movie("Alien", "pg16", "Ridley Scott"));
+        movies.put(2, new Movie("Natural Born Killers", "pg16", "Oliver Stone"));
+    }
 
-	// Request of the form "movieDB/add?name=Terminator2&rating=pg13&director=Someone&20Important"
-	// Note we need to specify the ReqestParam name as Java cannot infer it if it is compiled without debugging
-	// enabled.
-	@RequestMapping(value="/add", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void addMovie(@RequestParam("name") String name, @RequestParam("rating") String rating, @RequestParam("director") String director) {
-		movies.add(new Movie(name,rating,director));
-	}
+    // Request of the form /example/rest
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    public
+    @ResponseBody
+    Map<Integer, Movie> listMovies() throws IOException {
+        return movies;
+    }
 
-	// Return a list of all movies in the database
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public @ResponseBody List<Movie> listMovies(){
-		return movies;
-	}
+    // Request of the form /example/movies/{id}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    public
+    @ResponseBody
+    Movie getMovie(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        if (movies.containsKey(id)) return movies.get(id);
+        // If we get here, it means we don't have the movie in the database. The throw
+        // here is just to demonstrate how to generate an appropriate HTTP error if
+        // there is a problem
+        response.sendError(400, "Movie \"" + id + "\" does not exist in the database\n");
+        return new Movie("", "", ""); // Dummy return
+    }
+
+    // Request of the form "example/movies/name/rating/director"
+    // Note we need to specify the RequestParam name as Java cannot infer it if it is compiled without debugging
+    // enabled.
+    @RequestMapping(value = "/{name:.+}/{rating:.+}/{director:.+}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addMovie(@PathVariable("name") String name, @PathVariable("rating") String rating, @PathVariable("director") String director) {
+        Iterator<Integer> it = movies.keySet().iterator();
+        int i = 0;
+        // Cheap way to calculate a unique id
+        while (it.hasNext()) {
+            int t = it.next();
+            if (i < t) i = t;
+        }
+        movies.put(i + 1, new Movie(name, rating, director));
+    }
+
+    // Request of the form "example/movies/id" to delete an entry in the database
+    // If fails silently if there is no matching entry in the database
+    // TODO This deletes the required record, but it generates a warning (No mapping found for HTTP request with URI [/example/movies/movies/3)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteMovie(@PathVariable("id") int id) {
+        if (movies.containsKey(id)) {
+            movies.remove(id);
+        }
+    }
 }
