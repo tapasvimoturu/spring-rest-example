@@ -53,7 +53,8 @@ public class MovieController {
     // enabled.
     @RequestMapping(value = "/{name:.+}/{rating:.+}/{director:.+}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addMovie(@PathVariable("name") String name, @PathVariable("rating") String rating, @PathVariable("director") String director) {
+    public void addMovie(@PathVariable("name") String name, @PathVariable("rating") String rating,
+                         @PathVariable("director") String director) {
         Iterator<Integer> it = movies.keySet().iterator();
         int i = 0;
         // Cheap way to calculate a unique id
@@ -66,7 +67,8 @@ public class MovieController {
 
     // Request of the form "example/movies/id" to delete an entry in the database
     // If fails silently if there is no matching entry in the database
-    // TODO This deletes the required record, but it generates a warning (No mapping found for HTTP request with URI [/example/movies/movies/3)
+    // TODO This deletes the required record, but it generates a warning (No mapping found for HTTP request with URI
+    // [/example/movies/movies/3)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteMovie(@PathVariable("id") int id) {
         if (movies.containsKey(id)) {
