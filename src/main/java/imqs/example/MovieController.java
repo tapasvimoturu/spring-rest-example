@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/movies")
 public class MovieController {
 
-    Map<Integer, Movie> movies = new HashMap<Integer, Movie>();
+    Map<Integer, Movie> movies = new HashMap<>();
 
     public MovieController() {
         // Just add a movie so we can test if we get a list out
