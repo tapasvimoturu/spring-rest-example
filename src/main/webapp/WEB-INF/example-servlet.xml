@@ -1,6 +1,6 @@
-<beans
-    xmlns="http://www.springframework.org/schema/beans"
-    xmlns:security="http://www.springframework.org/schema/security"
+<beans:beans
+    xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -14,24 +14,26 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <security:http auto-config='true'>
-        <security:intercept-url pattern="/*" access="ROLE_USER" />
-    </security:http>
-
 	<context:component-scan base-package="imqs.example" />
 
 	<mvc:annotation-driven />
 
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" />
-                <security:user name="bob" password="bobspassword" authorities="ROLE_USER" />
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <http auto-config='true'>
+        <intercept-url pattern="/**" access="ROLE_USER" />
+    </http>
 
-</beans>
+    <!-- Enable the use of annotations (@Secured("ROLE_?") at ReST call entry points -->
+    <!--<global-method-security secured-annotations="enabled" />-->
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+                <user name="bob" password="bob" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>
 
 
 

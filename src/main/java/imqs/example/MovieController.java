@@ -1,6 +1,7 @@
 package imqs.example;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class MovieController {
     }
 
     // Request of the form /example/rest
+    @Secured("ROLE_USER")
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
