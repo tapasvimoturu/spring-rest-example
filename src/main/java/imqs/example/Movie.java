@@ -6,6 +6,8 @@ public final class Movie {
     private String rating;
     private String director;
 
+    public Movie() {}
+
     public String getName() {
         return name;
     }

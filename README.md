@@ -31,7 +31,7 @@ This will produce a file `target/SpringMovies.war`. Copy this to your tomcat web
 that  I have not worked out how to deploy this to Jetty. Test it by issuing the following command:
 
 ```
-$ curl localhost:8080/spring-rest-example-0.1/example/movies
+$ curl localhost:8080/example/movies/
 {
     "1": {
         "name": "Alien",
