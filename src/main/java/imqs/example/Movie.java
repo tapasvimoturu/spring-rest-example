@@ -1,9 +1,16 @@
 package imqs.example;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public final class Movie {
 
+    @JsonProperty
     private String name;
+
+    @JsonProperty
     private String rating;
+
+    @JsonProperty
     private String director;
 
     public Movie() {}

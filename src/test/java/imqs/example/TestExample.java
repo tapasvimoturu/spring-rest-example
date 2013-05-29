@@ -1,29 +1,23 @@
 package imqs.example;
 
-import imqs.example.Movie;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.junit.Assert;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.springframework.http.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.*;
+import static org.junit.Assert.*;
 
 /**
- * User: weber
+ * User: David Weber
  * Date: 2013/05/29
  * Time: 11:28 AM
  */
@@ -55,10 +49,9 @@ public class TestExample {
             server.start();
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Could not start server");
+            fail("Could not start server");
         }
-        Assert.assertTrue(server.isRunning());
-
+        assertTrue(server.isRunning());
     }
 
     @AfterClass
@@ -71,30 +64,70 @@ public class TestExample {
     }
 
     @Test
-    public void CollectionTest() throws Exception {
+    public void CollectionReadTest() {
         ObjectMapper mapper = new ObjectMapper();
-
         Map<Integer, Movie> movieMap = new HashMap<>();
-
-        TypeReference thisList = new TypeReference<Map<Integer, Movie>>() {};
-
+        TypeReference thisMap = new TypeReference<Map<Integer, Movie>>() {};
         ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/", String.class, "");
-        Assert.assertEquals(r.getStatusCode(), HttpStatus.OK);
+        assertEquals(r.getStatusCode(), HttpStatus.OK);
 
         try {
-            movieMap = mapper.readValue(r.getBody(), thisList);
+            movieMap = mapper.readValue(r.getBody(), thisMap);
         } catch (JsonParseException e) {
-            Assert.fail("Invalid JSON syntax\n" + e.getMessage());
+            fail("Invalid JSON syntax\n" + e.getMessage());
         } catch (JsonMappingException e) {
-            Assert.fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
         } catch (IOException e) {
-            Assert.fail("Unknown IO exception thrown by the ObjectMapper");
+            fail("Unknown IO exception thrown by the ObjectMapper");
         }
 
         // The list has one report. Check that we can get the JSON params and
         // download a sample report.
-        Assert.assertTrue(movieMap.size() + " is not more than 0", movieMap.size() > 0);
+        assertTrue(movieMap.size() + " is not more than 0", movieMap.size() == 2);
 
     }
 
+    @Test
+    public void ItemReadTest() {
+        ObjectMapper mapper = new ObjectMapper();
+        Movie m = new Movie();
+        TypeReference thisElement = new TypeReference<Movie>() {};
+        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/2", String.class, "");
+        assertEquals(r.getStatusCode(), HttpStatus.OK);
+
+        try {
+            m = mapper.readValue(r.getBody(), thisElement);
+        } catch (JsonParseException e) {
+            fail("Invalid JSON syntax\n" + e.getMessage());
+        } catch (JsonMappingException e) {
+            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+        } catch (IOException e) {
+            fail("Unknown IO exception thrown by the ObjectMapper");
+        }
+        assertEquals("pg16", m.getRating());
+    }
+
+    @Test
+    public void itemPut() throws Exception{
+        // Add a movie to the database
+        rest.put(rootURL + "/example/movies/Kill Bill Volume 2/pg16/Quentin Tarantino",null);
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Check that it is actually there.
+        Movie m = new Movie();
+        TypeReference thisElement = new TypeReference<Movie>() {};
+        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/3", String.class, "");
+        assertEquals(r.getStatusCode(), HttpStatus.OK);
+
+        try {
+            m = mapper.readValue(r.getBody(), thisElement);
+        } catch (JsonParseException e) {
+            fail("Invalid JSON syntax\n" + e.getMessage());
+        } catch (JsonMappingException e) {
+            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+        } catch (IOException e) {
+            fail("Unknown IO exception thrown by the ObjectMapper");
+        }
+        assertEquals("Quentin Tarantino", m.getDirector());
+    }
 }
