@@ -3,8 +3,14 @@ package imqs.example;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public final class Movie {
+	
+
 
     @JsonProperty
+    private Integer id;
+	
+
+	@JsonProperty
     private String name;
 
     @JsonProperty
@@ -38,6 +44,14 @@ public final class Movie {
     public void setDirector(String director) {
         this.director = director;
     }
+   
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
     Movie(String n, String r, String d) {
         name = n;

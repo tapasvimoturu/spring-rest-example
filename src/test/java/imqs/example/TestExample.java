@@ -63,71 +63,75 @@ public class TestExample {
         }
     }
 
-    @Test
-    public void CollectionReadTest() {
-        ObjectMapper mapper = new ObjectMapper();
-        Map<Integer, Movie> movieMap = new HashMap<>();
-        TypeReference thisMap = new TypeReference<Map<Integer, Movie>>() {};
-        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/", String.class, "");
-        assertEquals(r.getStatusCode(), HttpStatus.OK);
+//    @Test
+//    public void CollectionReadTest() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map<Integer, Movie> movieMap = new HashMap<>();
+//        TypeReference thisMap = new TypeReference<Map<Integer, Movie>>() {};
+//        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/", String.class, "");
+//        assertEquals(r.getStatusCode(), HttpStatus.OK);
+//
+//        try {
+//            movieMap = mapper.readValue(r.getBody(), thisMap);
+//        } catch (JsonParseException e) {
+//            fail("Invalid JSON syntax\n" + e.getMessage());
+//        } catch (JsonMappingException e) {
+//            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+//        } catch (IOException e) {
+//            fail("Unknown IO exception thrown by the ObjectMapper");
+//        }
+//
+//        // The list has one report. Check that we can get the JSON params and
+//        // download a sample report.
+//        assertTrue(movieMap.size() + " is not more than 0", movieMap.size() == 2);
+//
+//    }
+//
+//    @Test
+//    public void ItemReadTest() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        Movie m = new Movie();
+//        TypeReference thisElement = new TypeReference<Movie>() {};
+//        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/2", String.class, "");
+//        assertEquals(r.getStatusCode(), HttpStatus.OK);
+//
+//        try {
+//            m = mapper.readValue(r.getBody(), thisElement);
+//        } catch (JsonParseException e) {
+//            fail("Invalid JSON syntax\n" + e.getMessage());
+//        } catch (JsonMappingException e) {
+//            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+//        } catch (IOException e) {
+//            fail("Unknown IO exception thrown by the ObjectMapper");
+//        }
+//        assertEquals("pg16", m.getRating());
+//    }
 
-        try {
-            movieMap = mapper.readValue(r.getBody(), thisMap);
-        } catch (JsonParseException e) {
-            fail("Invalid JSON syntax\n" + e.getMessage());
-        } catch (JsonMappingException e) {
-            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
-        } catch (IOException e) {
-            fail("Unknown IO exception thrown by the ObjectMapper");
-        }
-
-        // The list has one report. Check that we can get the JSON params and
-        // download a sample report.
-        assertTrue(movieMap.size() + " is not more than 0", movieMap.size() == 2);
-
-    }
-
-    @Test
-    public void ItemReadTest() {
-        ObjectMapper mapper = new ObjectMapper();
-        Movie m = new Movie();
-        TypeReference thisElement = new TypeReference<Movie>() {};
-        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/2", String.class, "");
-        assertEquals(r.getStatusCode(), HttpStatus.OK);
-
-        try {
-            m = mapper.readValue(r.getBody(), thisElement);
-        } catch (JsonParseException e) {
-            fail("Invalid JSON syntax\n" + e.getMessage());
-        } catch (JsonMappingException e) {
-            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
-        } catch (IOException e) {
-            fail("Unknown IO exception thrown by the ObjectMapper");
-        }
-        assertEquals("pg16", m.getRating());
-    }
-
-    @Test
-    public void itemPut() throws Exception{
-        // Add a movie to the database
-        rest.put(rootURL + "/example/movies/Kill Bill Volume 2/pg16/Quentin Tarantino",null);
-        ObjectMapper mapper = new ObjectMapper();
-
-        // Check that it is actually there.
-        Movie m = new Movie();
-        TypeReference thisElement = new TypeReference<Movie>() {};
-        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/3", String.class, "");
-        assertEquals(r.getStatusCode(), HttpStatus.OK);
-
-        try {
-            m = mapper.readValue(r.getBody(), thisElement);
-        } catch (JsonParseException e) {
-            fail("Invalid JSON syntax\n" + e.getMessage());
-        } catch (JsonMappingException e) {
-            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
-        } catch (IOException e) {
-            fail("Unknown IO exception thrown by the ObjectMapper");
-        }
-        assertEquals("Quentin Tarantino", m.getDirector());
-    }
+//    @Test
+//    public void itemCreate() throws Exception{
+//        // Add a movie to the database
+//    	Movie m = new Movie();
+//    	m.setDirector("Christopher Nolan");
+//    	m.setName("Prestige");
+//    	m.setRating("pg16");
+//        rest.postForEntity(rootURL + "/example/movies", m, "application/json",null);
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        // Check that it is actually there.
+//        Movie m2 = new Movie();
+//        TypeReference thisElement = new TypeReference<Movie>() {};
+//        ResponseEntity<String> r = rest.getForEntity(rootURL + "/example/movies/3", String.class, "");
+//        assertEquals(r.getStatusCode(), HttpStatus.OK);
+//
+//        try {
+//            m2 = mapper.readValue(r.getBody(), thisElement);
+//        } catch (JsonParseException e) {
+//            fail("Invalid JSON syntax\n" + e.getMessage());
+//        } catch (JsonMappingException e) {
+//            fail("Failed to map retrieved JSON to a ReportDescriptor type: " + e.getMessage());
+//        } catch (IOException e) {
+//            fail("Unknown IO exception thrown by the ObjectMapper");
+//        }
+//        assertEquals("Quentin Tarantino", m.getDirector());
+//    }
 }
