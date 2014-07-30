@@ -27,10 +27,11 @@ public class MovieDAO {
 		return m;
 	}
 	
-	public static Movie getMovie(Movie m) {
-		if (movies.containsKey(m.getId())) {
-			movies.remove(m.getId());
-			movies.put(m.getId(), m);
+	public static Movie updateMovie(Integer id, Movie m) {
+		if (movies.containsKey(id)) {
+			movies.remove(id);
+			m.setId(id);
+			movies.put(id, m);
 		}
 		return m;
 	}

@@ -53,12 +53,25 @@ public class MovieController {
     // Request of the form "example/movies/name/rating/director"
     // Note we need to specify the RequestParam name as Java cannot infer it if it is compiled without debugging
     // enabled.
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public 
     @ResponseBody 
     Movie createMovie(@RequestBody Movie movie) {
          return MovieDAO.createMovie(movie);
+ 
+    }
+    
+    
+    // Request of the form "example/movies/name/rating/director"
+    // Note we need to specify the RequestParam name as Java cannot infer it if it is compiled without debugging
+    // enabled.
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public 
+    @ResponseBody 
+    Movie updateMovie(@PathVariable("id") Integer id, @RequestBody Movie movie) {
+         return MovieDAO.updateMovie(id, movie);
  
     }
 
